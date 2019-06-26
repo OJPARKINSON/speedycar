@@ -4,16 +4,16 @@ import './App.css';
 
 class App extends React.Component {
   resetForm() {
-    this.refs.contactForm.reset();
+    
   }
   addVehicle(e) {
     e.preventDefault();
     const db = firebaseConf.firestore();
     db.collection("vehicle").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} => ${doc.data()}`);
           console.log(doc.data());
       });
+      this.refs.form.reset();
     });
     db.collection("vehicle").add({
       Registration: this.Registration.value,
@@ -37,16 +37,20 @@ class App extends React.Component {
         </header>
         <form onSubmit={this.addVehicle.bind(this)} ref='form'>
           <input name="Registration" placeholder="Registration" ref={Registration => this.Registration = Registration}  />
-          <input name="vType" placeholder="vType" ref={vType => this.vType = vType}  />
-          <input name="Make" ref={Make => this.Make = Make}  placeholder="Make" />
-          <input name="Model" ref={Model => this.Model = Model}  placeholder="Model" />
-          <input name="Colour" ref={Colour => this.Colour = Colour}  placeholder="Colour" />
-          <input name="fuelType" ref={fuelType => this.fuelType = fuelType}  placeholder="Fuel Type" />
-          <input name="Price" ref={Price => this.Price = Price}  placeholder="Price" />
-          <input name="Milage" ref={Milage => this.Milage = Milage}  placeholder="Milage" />
-          <input name="motDate" ref={motDate => this.motDate = motDate}  placeholder="MOT Date" />
-          <input name="Capacity" ref={Capacity => this.Capacity = Capacity}  placeholder="Capacity" />
-          <input name="bikeType" ref={bikeType => this.bikeType = bikeType}  placeholder="Bike Type" />
+          <select placeholder="vType" ref={vType => this.vType = vType}>
+            <option value="Car">Car</option>
+            <option value="LGV">LGV</option>
+            <option value="Bike">Bike</option>
+          </select>
+          <input ref={Make => this.Make = Make}  placeholder="Make" />
+          <input ref={Model => this.Model = Model}  placeholder="Model" />
+          <input ref={Colour => this.Colour = Colour}  placeholder="Colour" />
+          <input ref={fuelType => this.fuelType = fuelType}  placeholder="Fuel Type" />
+          <input ref={Price => this.Price = Price}  placeholder="Price" />
+          <input ref={Milage => this.Milage = Milage}  placeholder="Milage" />
+          <input ref={motDate => this.motDate = motDate}  placeholder="MOT Date" />
+          <input ref={Capacity => this.Capacity = Capacity}  placeholder="Capacity" />
+          <input ref={bikeType => this.bikeType = bikeType}  placeholder="Bike Type" />
           <input type="submit" />
         </form>
       </div>
