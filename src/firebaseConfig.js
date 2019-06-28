@@ -1,6 +1,6 @@
 export default {
     apiKey: "AIzaSyCz_mF_wnajF44yiqr27fEJNCTZsGtTLGU",
-    authDomain: "https://master.d8mjoejrs9n2y.amplifyapp.com/",
+    authDomain: "speedycars-cf405.firebaseapp.com",
     databaseURL: "https://speedycars-cf405.firebaseio.com",
     projectId: "speedycars-cf405",
     storageBucket: "",
