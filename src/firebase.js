@@ -1,15 +1,15 @@
-import firebase from "firebase";
+// import * as firebase from 'firebase/app';
+// import withFirebaseAuth from 'react-with-firebase-auth'
+// import 'firebase/auth';
 
-var config = {
-    apiKey: "AIzaSyCz_mF_wnajF44yiqr27fEJNCTZsGtTLGU",
-    authDomain: "speedycars-cf405.firebaseapp.com",
-    databaseURL: "https://speedycars-cf405.firebaseio.com",
-    projectId: "speedycars-cf405",
-    storageBucket: "",
-    messagingSenderId: "41027832451",
-    appId: "1:41027832451:web:eee826a55479d3dc"
-};
-// Initialize Firebase
-const firebaseConf = firebase.initializeApp(config);
+// const firebaseApp = firebase.initializeApp(config);
+// const firebaseAppAuth = firebaseApp.auth();
+// const providers = {
+//   googleProvider: new firebase.auth.GoogleAuthProvider(),
+// };
 
-export default firebaseConf;
+
+// export default withFirebaseAuth({
+//     providers,
+//     firebaseAppAuth,
+//   })(App);;

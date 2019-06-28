@@ -1,22 +1,23 @@
-import React from 'react';
-import firebaseConf from './firebase';
+import React, { Component } from 'react';
+import withFirebaseAuth from 'react-with-firebase-auth'
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import firebaseConfig from './firebaseConfig';
 import './App.css';
 
-class App extends React.Component {
-  resetForm() {
-    
-  }
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+class App extends Component {
   addVehicle(e) {
     e.preventDefault();
-    const db = firebaseConf.firestore();
+    const db = firebaseApp.firestore();
     db.collection("vehicle").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           console.log(doc.data());
       });
       this.refs.form.reset();
     });
-    db.collection("vehicle").add({
-      Registration: this.Registration.value,
+    db.collection("vehicle").doc(this.Registration.value).add({
       vType: this.vType.value,
       Make: this.Make.value,
       Model: this.Model.value,
@@ -30,10 +31,26 @@ class App extends React.Component {
     });
   };
   render(){
+    const {
+      user,
+      signOut,
+      signInWithGoogle,
+    } = this.props;
+    console.log(user);
     return (
       <div className="App">
         <header className="App-header">
           <h1>Speedy Cars</h1>
+          {
+            user 
+              ? <p>Hello, {user.displayName}</p>
+              : <p>Please sign in.</p>
+          }
+          {
+            user
+              ? <button onClick={signOut}>Sign out</button>
+              : <button onClick={signInWithGoogle}>Sign in with Google</button>
+          }
         </header>
         <form onSubmit={this.addVehicle.bind(this)} ref='form'>
           <input name="Registration" placeholder="Registration" ref={Registration => this.Registration = Registration}  />
@@ -57,5 +74,12 @@ class App extends React.Component {
     );
   }
 }
+const firebaseAppAuth = firebaseApp.auth();
+const providers = {
+  googleProvider: new firebase.auth.GoogleAuthProvider(),
+};
 
-export default App;
+export default withFirebaseAuth({
+  providers,
+  firebaseAppAuth,
+})(App);
