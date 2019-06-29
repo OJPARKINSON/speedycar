@@ -3,26 +3,23 @@ import app from './firebaseConfig.js';
 import { Link } from 'react-router-dom';
 import 'firebase/firestore';
 
-const db = app.firestore();
-
 class Home extends Component {
     componentDidMount() {
+        this.updateTable();
+    }
+    updateTable() {
+        const db = app.firestore();
         db.collection("vehicle").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                console.log(doc.data());
+                console.log(`${doc.id}  ${doc.data().vType}  ${doc.data().Make}  ${doc.data().Model}  ${doc.data().Colour}  ${doc.data().fuelType}  ${doc.data().Price}  ${doc.data().Milage}  ${doc.data().motDate}  ${doc.data().Capacity}  ${doc.data().bikeType}`);
             });
         });
     }
     addVehicle(e) {
         e.preventDefault();
-        
-        db.collection("vehicle").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(doc.data());
-        });
-        this.refs.form.reset();
-        });
+        const db = app.firestore();
         db.collection("vehicle").doc(this.Registration.value).set({
+        Registration: this.Registration.value,
         vType: this.vType.value,
         Make: this.Make.value,
         Model: this.Model.value,
@@ -34,6 +31,7 @@ class Home extends Component {
         Capacity: this.Capacity.value,
         bikeType: this.bikeType.value
         });
+        this.refs.form.reset();
     };
     render() {
         return (
@@ -55,11 +53,12 @@ class Home extends Component {
                     <input ref={fuelType => this.fuelType = fuelType}  placeholder="Fuel Type" />
                     <input ref={Price => this.Price = Price}  placeholder="Price" />
                     <input ref={Milage => this.Milage = Milage}  placeholder="Milage" />
-                    <input ref={motDate => this.motDate = motDate}  placeholder="MOT Date" />
+                    <input ref={motDate => this.motDate = motDate} type="date"  placeholder="MOT Date" />
                     <input ref={Capacity => this.Capacity = Capacity}  placeholder="Capacity" />
                     <input ref={bikeType => this.bikeType = bikeType}  placeholder="Bike Type" />
                     <input type="submit" />
                 </form>
+                <button onClick={() => this.updateTable()}>Refresh Table</button>
             </div>
             <Link to="/SignUp">SignUp</Link>
             <button onClick={() => app.auth().signOut()}>Sign out</button>
